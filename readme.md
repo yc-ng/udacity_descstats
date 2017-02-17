@@ -2,7 +2,7 @@ Intro to Descriptive Statistics - Final Project
 ================
 YC Ng
 
--   [Introduction](#introduction)
+-   [Introduction & Summary](#introduction-summary)
 -   [Background](#background)
 -   [0. Building a Virtual Deck of Cards for Sampling](#building-a-virtual-deck-of-cards-for-sampling)
 -   [1. Relative Frequencies of Card Values](#relative-frequencies-of-card-values)
@@ -11,21 +11,27 @@ YC Ng
 -   [4. Visual Distribution of Card Value Sums](#visual-distribution-of-card-value-sums)
 -   [5. Estimates of Future Draw Values](#estimates-of-future-draw-values)
 
-Introduction
-------------
+Introduction & Summary
+----------------------
 
 This is the Final Project submission for Udacity's [Intro to Descriptive Statistics](https://www.udacity.com/course/intro-to-descriptive-statistics--ud827) course. For more information, please see the [Project Overview](https://docs.google.com/document/d/1059JMJ9C5dn7vKUrmfWYle57Ai3Uk9PzxPQBGj5drjE/pub?embedded=true) and the [Project Rubric](https://docs.google.com/document/d/1gVCBsThTXBkUtMiccc4Rj5XT8I9h4ji0bpqTe2uUxRg/pub).
+
+For this project, the R programming language is used to draw **100 independent samples of 3 cards** from a standard deck of 52 playing cards, each with a pre-assigned value. For each sample, the values of the 3 cards are added up.
+This **sampling distribution of value sums** is visualized with a histogram, and its **mean, median and mode** are found to be **19.2, 20 and 21** respectively.
+
+Assuming that our sampling distribution is normally distributed, we estimate 90% of our sample's value sums will
+fall between **9 and 29**. The probability of drawing a sample with a value sum over 20 is about **0.4483**.
 
 Background
 ----------
 
-This project involves a standard deck of playing cards, containing fifty-two cards divided into four suits (spades, hearts, diamonds, and clubs), each suit containing thirteen cards (Ace, numbers 2-10, and face cards Jack, Queen, and King).
+This project involves a standard deck of playing cards, containing 52 cards divided into four suits (spades, hearts, diamonds, and clubs), each suit containing 13 cards (Ace, numbers 2-10, and face cards Jack, Queen, and King).
 
 For this project, each card is assigned a value:
 
--   the Ace has a value of 1
--   the numbered cards (2 to 10) assumes their printed value
--   the face cards (Jack, Queen, King) each has a value of 10
+-   the *Ace* has a value of 1
+-   the *numbered cards (2 to 10)* assumes their printed value
+-   the *face cards (Jack, Queen, King)* each has a value of 10
 
 The objectives of this project is to:
 
@@ -50,7 +56,6 @@ In the absence of a physical deck of cards, the *R* programming language may be 
 -   **card**: the name of the card
 -   **value**: the value assigned to the card
 
-<!-- use the pander package to reformat my tables -->
 ``` r
 # names of cards for each suit
 suit <- rep(c("Spades", "Hearts", "Clubs", "Diamonds"), each = 13)
@@ -66,13 +71,22 @@ deck <- data.frame(card, value, stringsAsFactors = FALSE)
 # only the first and last few cards are shown below
 ```
 
-<table style="width:29%;">
+<table style="width:90%;">
+<caption>First 21 cards of deck</caption>
 <colgroup>
 <col width="19%" />
+<col width="11%" />
+<col width="22%" />
+<col width="11%" />
+<col width="16%" />
 <col width="9%" />
 </colgroup>
 <thead>
 <tr class="header">
+<th align="center">card</th>
+<th align="center">value</th>
+<th align="center">card</th>
+<th align="center">value</th>
 <th align="center">card</th>
 <th align="center">value</th>
 </tr>
@@ -81,36 +95,67 @@ deck <- data.frame(card, value, stringsAsFactors = FALSE)
 <tr class="odd">
 <td align="center">Ace of Spades</td>
 <td align="center">1</td>
+<td align="center">8 of Spades</td>
+<td align="center">8</td>
+<td align="center">2 of Hearts</td>
+<td align="center">2</td>
 </tr>
 <tr class="even">
 <td align="center">2 of Spades</td>
 <td align="center">2</td>
+<td align="center">9 of Spades</td>
+<td align="center">9</td>
+<td align="center">3 of Hearts</td>
+<td align="center">3</td>
 </tr>
 <tr class="odd">
 <td align="center">3 of Spades</td>
 <td align="center">3</td>
+<td align="center">10 of Spades</td>
+<td align="center">10</td>
+<td align="center">4 of Hearts</td>
+<td align="center">4</td>
 </tr>
 <tr class="even">
 <td align="center">4 of Spades</td>
 <td align="center">4</td>
+<td align="center">Jack of Spades</td>
+<td align="center">10</td>
+<td align="center">5 of Hearts</td>
+<td align="center">5</td>
 </tr>
 <tr class="odd">
 <td align="center">5 of Spades</td>
 <td align="center">5</td>
+<td align="center">Queen of Spades</td>
+<td align="center">10</td>
+<td align="center">6 of Hearts</td>
+<td align="center">6</td>
 </tr>
 <tr class="even">
 <td align="center">6 of Spades</td>
 <td align="center">6</td>
+<td align="center">King of Spades</td>
+<td align="center">10</td>
+<td align="center">7 of Hearts</td>
+<td align="center">7</td>
 </tr>
 <tr class="odd">
 <td align="center">7 of Spades</td>
 <td align="center">7</td>
+<td align="center">Ace of Hearts</td>
+<td align="center">1</td>
+<td align="center">8 of Hearts</td>
+<td align="center">8</td>
 </tr>
 </tbody>
 </table>
 
-<table style="width:35%;">
+<table style="width:68%;">
+<caption>Last 14 cards of deck</caption>
 <colgroup>
+<col width="22%" />
+<col width="11%" />
 <col width="25%" />
 <col width="9%" />
 </colgroup>
@@ -118,34 +163,50 @@ deck <- data.frame(card, value, stringsAsFactors = FALSE)
 <tr class="header">
 <th align="center">card</th>
 <th align="center">value</th>
+<th align="center">card</th>
+<th align="center">value</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td align="center">King of Clubs</td>
+<td align="center">10</td>
 <td align="center">7 of Diamonds</td>
 <td align="center">7</td>
 </tr>
 <tr class="even">
+<td align="center">Ace of Diamonds</td>
+<td align="center">1</td>
 <td align="center">8 of Diamonds</td>
 <td align="center">8</td>
 </tr>
 <tr class="odd">
+<td align="center">2 of Diamonds</td>
+<td align="center">2</td>
 <td align="center">9 of Diamonds</td>
 <td align="center">9</td>
 </tr>
 <tr class="even">
+<td align="center">3 of Diamonds</td>
+<td align="center">3</td>
 <td align="center">10 of Diamonds</td>
 <td align="center">10</td>
 </tr>
 <tr class="odd">
+<td align="center">4 of Diamonds</td>
+<td align="center">4</td>
 <td align="center">Jack of Diamonds</td>
 <td align="center">10</td>
 </tr>
 <tr class="even">
+<td align="center">5 of Diamonds</td>
+<td align="center">5</td>
 <td align="center">Queen of Diamonds</td>
 <td align="center">10</td>
 </tr>
 <tr class="odd">
+<td align="center">6 of Diamonds</td>
+<td align="center">6</td>
 <td align="center">King of Diamonds</td>
 <td align="center">10</td>
 </tr>
@@ -158,6 +219,7 @@ deck <- data.frame(card, value, stringsAsFactors = FALSE)
 The frequencies of the card values in `deck` are shown in the following table and histogram:
 
 <table style="width:97%;">
+<caption>Relative frequency of card values in a 52-card deck</caption>
 <colgroup>
 <col width="9%" />
 <col width="9%" />
@@ -243,10 +305,12 @@ for(i in 1:100) {
 }
 cards_drawn <- cbind(cards_drawn, sample_sums)
 names(cards_drawn) <- c("Card 1", "Card 2", "Card 3", "Sum")
+set.caption("First 6 samples drawn from the deck, with replacement")
 pander(head(cards_drawn))      # show only the first 6 samples
 ```
 
 <table style="width:67%;">
+<caption>First 6 samples drawn from the deck, with replacement</caption>
 <colgroup>
 <col width="20%" />
 <col width="19%" />
@@ -307,7 +371,7 @@ pander(head(cards_drawn))      # show only the first 6 samples
 <!-- 
 3. Let's take a look at the distribution of the card sums. Report descriptive statistics for the samples you have drawn. Include at least two measures of central tendency and two measures of variability.
 -->
-To better understand the distribution of value sums of our card samples (henceforth known as a *sampling distribution*), we first calculate a few statistics for our sampling distribution. The **mean** and **median** are measures of *central tendency*, the **interquartile range** and **standard error** are measures of *variability*.
+To better understand the distribution of value sums of our card samples (known as a *sampling distribution*), we first calculate a few statistics for our sampling distribution. The **mean** and **median** are measures of *central tendency*, the **interquartile range** and **standard error** are measures of *variability*.
 
 Note that the standard error is calculated using the formulae for sample standard deviation, as the samples we have drawn do not constitute the entire population of 22100 possible 3-card draws from a 52-card deck. <!-- reformat no. of combinations in appropriate form-->
 
@@ -319,6 +383,7 @@ card_stats <- data.frame(
          # IQR = median of upper half - median of lower half
          Interquartile_Range = sort(sample_sums)[75] - sort(sample_sums)[25])
 )
+
 pander(card_stats)
 ```
 
@@ -379,7 +444,9 @@ It is clear that the distribution of card values is negatively skewed, since the
 </tbody>
 </table>
 
-Next, the **distribution of value sums** is visualised in the following histogram:
+------------------------------------------------------------------------
+
+Next, the **sampling distribution of value sums** is visualised in the following histogram:
 
 <img src="readme_files/figure-markdown_github/sum hist-1.png" style="display: block; margin: auto;" />
 
@@ -440,14 +507,16 @@ Here are the statistics for our sampling distribution of sums for reference:
 
 Assuming that our sample sums are normally distributed, we expect 90% of our draw values to fall within the 5th to the 95th percentiles. From the z-table, the 5th and 95th percentiles correspond to the z-values of -1.645 and 1.645 respectively. Given the mean and standard error of our distribution, we can calculate the lower and upper limits of our values:
 
-![Equation 1](eqn1.png)
+![Equation 1](readme_files/eqn1.png)
 
-Therefore, 90% of our draw values should fall in **between 9.30 and 29.10**.
+Therefore, 90% of our draw values should fall in **between 9 and 29** (rounded to the nearest integer).
+
+------------------------------------------------------------------------
 
 The probably of a draw value of at least 20 can be rewritten in terms of z-value:
 
-![Equation 2](eqn2.png)
+![Equation 2](readme_files/eqn2.png)
 
 Using the z-table, subtract the given probability from 1 to obtain the probability of a draw value of at least 20, which is **0.4483**:
 
-![Equation 3](eqn3.png)
+![Equation 3](readme_files/eqn3.png)
